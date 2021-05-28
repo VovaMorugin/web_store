@@ -65,7 +65,7 @@ class ProductCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False, blank=False, verbose_name='Category')
 
     def __str__(self):
-        return self.title + self. category
+        return str(self.category)
 
 class Promocode(models.Model):
     class Meta:

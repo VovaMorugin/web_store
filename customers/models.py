@@ -17,7 +17,7 @@ class Customer(models.Model):
     time_created = models.DateTimeField(auto_now_add=True, verbose_name='Created')
 
     def __str__(self):
-        return self.email
+        return self.first_name
 
 
 class CustomerAddress(models.Model):
