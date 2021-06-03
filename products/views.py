@@ -7,6 +7,8 @@ from .models import Category, Brand, Product
 class CategoryList(generics.ListAPIView):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+    def get_queryset(self):
+        return Category.objects.filter(is_active = True)
 
 class BrandList(generics.ListAPIView):
     serializer_class = BrandSerializer
