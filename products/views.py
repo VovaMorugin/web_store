@@ -15,3 +15,10 @@ class BrandList(generics.ListAPIView):
 class ProductList(generics.ListAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+
+class CategoryCreate(generics.CreateAPIView):
+    serializer_class = CategorySerializer
+
+class CategoryRUD(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
