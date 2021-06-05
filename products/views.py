@@ -30,6 +30,10 @@ class BrandList(generics.ListAPIView):
     serializer_class = BrandSerializer
     queryset = Brand.objects.all()
 
+class BrandRUD(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = BrandSerializer
+    queryset = Brand.objects.all()
+
 
 class ProductList(generics.ListAPIView):
     serializer_class = ProductSerializer
