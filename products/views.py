@@ -1,10 +1,12 @@
 from django.db.models.query import QuerySet
 from django.shortcuts import render
-from rest_framework import generics, pagination, response
+from rest_framework import generics, pagination, response, filters
 from .paginations import *
 from .serializers import *
 from .models import Category, Brand, Product, ProductCategory
 from math import ceil
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 # Create your views here.
 
@@ -47,6 +49,12 @@ class ProductList(generics.ListAPIView):
     serializer_class = ProductPreviewSerializer
     queryset = Product.objects.all()
     pagination_class = ProductPagination
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['brand', 'price']
+    search_fields = ['title']
+    ordering_fields = ['title']
+
+
 
 class BrandRetrieve(generics.RetrieveAPIView):
     serializer_class = BrandRetriveWithPruductSerializer
