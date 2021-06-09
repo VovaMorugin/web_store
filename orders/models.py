@@ -11,14 +11,14 @@ class Order(models.Model):
         verbose_name_plural = 'orders'
 
     customer = models.ForeignKey(Customer, on_delete=CASCADE, null=False, blank=False, verbose_name='Customer')
-    promocode = models.ForeignKey(Promocode, on_delete=CASCADE)
+    promocode = models.ForeignKey(Promocode, on_delete=CASCADE, null=True, blank=True)
     customer_shipping_address = models.ForeignKey(CustomerAddress, on_delete=CASCADE, null=True, blank=True, verbose_name='Shipping address')
     time_created = models.DateTimeField(auto_now_add=True, verbose_name='Created')
     time_checkout = models.DateTimeField(null=True, blank=True, verbose_name='Time of checkout')
     time_delivery = models.DateTimeField(null=True, blank=True, verbose_name='Time of delivery')
 
     def __str__(self):
-        return self.customer + self.customer_address
+        return str(self.customer) + str(self.customer_shipping_address)
 
 
 class OrderProduct(models.Model):
@@ -33,4 +33,4 @@ class OrderProduct(models.Model):
     price = models.DecimalField(max_digits=9, decimal_places=2, null=False, blank=False, default=0, verbose_name='Price')
 
     def __str__(self):
-        return self.order + self.product
+        return str(self.order) + str(self.product)

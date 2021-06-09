@@ -9,15 +9,15 @@ class Customer(models.Model):
         verbose_name = 'customer'
         verbose_name_plural = 'customers'
 
-    token = models.CharField(max_length=200)
+    token = models.CharField(max_length=200, null=True, blank=True)
     first_name = models.CharField(max_length=200, null=True, blank=True, verbose_name='First name')
     last_name = models.CharField(max_length=200, null=True, blank=True, verbose_name='Last name')
     phone = models.BigIntegerField(null=True, blank=True, verbose_name='Phone')
     email = models.CharField(max_length=200, null=True, blank=True, verbose_name='Email')
     time_created = models.DateTimeField(auto_now_add=True, verbose_name='Created')
 
-    def __str__(self):
-        return self.first_name
+    # def __str__(self):
+    #     return str(self.first_name)
 
 
 class CustomerAddress(models.Model):
@@ -33,4 +33,4 @@ class CustomerAddress(models.Model):
     address = models.CharField(max_length=200, null=False, blank=False, verbose_name='Address')
 
     def __str__(self):
-        return self.customer
+        return str(self.customer) + " " + str(self.post_code)

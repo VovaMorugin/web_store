@@ -31,7 +31,7 @@ class Product(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Brand')
     description = models.TextField()
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 
 
