@@ -8,10 +8,6 @@ from math import ceil
 
 # Create your views here.
 
-
-
-
-
 class CategoryList(generics.ListAPIView):
     serializer_class = CategoryListSerializer
     queryset = Category.objects.all()
@@ -33,17 +29,6 @@ class CategoryRetrive(generics.RetrieveAPIView):
     serializer_class = CategoryRetriveSerializer
     queryset = Category.objects.all()
 
-
-class BrandList(generics.ListAPIView):
-    serializer_class = BrandSerializer
-    queryset = Brand.objects.all()
-
-
-class BrandRUD(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = BrandSerializer
-    queryset = Brand.objects.all()
-
-
 class ProductRetrive(generics.RetrieveAPIView):
     serializer_class = ProductRetriveSerializer
     queryset = Product.objects.all()
@@ -62,3 +47,7 @@ class ProductList(generics.ListAPIView):
     serializer_class = ProductPreviewSerializer
     queryset = Product.objects.all()
     pagination_class = ProductPagination
+
+class BrandRetrieve(generics.RetrieveAPIView):
+    serializer_class = BrandRetriveWithPruductSerializer
+    queryset = Brand.objects.all()

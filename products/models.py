@@ -28,8 +28,9 @@ class Product(models.Model):
     old_price = models.FloatField(null=True, blank=True, default=0, verbose_name='Old price')
     quantity = models.IntegerField(default=1, null=False, blank=False, verbose_name='Quantity')
     photo = models.ImageField(upload_to='images', null=True, blank=True, verbose_name='Photo')
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Brand')
+    brand = models.ForeignKey(Brand, related_name='product', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Brand')
     description = models.TextField()
+
     def __str__(self):
         return str(self.title)
 
@@ -42,7 +43,7 @@ class ProductReview(models.Model):
         verbose_name_plural = 'product_reviews'
 
     review = models.TextField(null=False, blank=False,verbose_name='Review')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=False, blank=False, verbose_name='Product')
+    product = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE, null=False, blank=False, verbose_name='Product')
 
 class Category(models.Model):
     class Meta:

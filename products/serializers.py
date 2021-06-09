@@ -6,13 +6,6 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = '__all__'
 
-
-class BrandSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Brand
-        fields = ['title']
-
-
 class CategoryRetriveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -23,6 +16,13 @@ class CategoryListSerializer(serializers.ModelSerializer):
         model = Category
         fields = ['id', 'title']
 
+class BrandField(serializers.RelatedField):
+    def to_representation(self, value):
+        return {
+            'id': value.id,
+            'title': value.title
+        }
+
 class ProductReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductReview
@@ -30,12 +30,18 @@ class ProductReviewSerializer(serializers.ModelSerializer):
 
 class ProductRetriveSerializer(serializers.ModelSerializer):
     reviews = ProductReviewSerializer(many=True, read_only=True)
+    brand = BrandField(many = False, read_only=True)
     class Meta:
         model = Product
         fields = ['id', 'title', 'price', 'old_price', 'quantity', 'photo', 'brand', 'description', 'reviews']
-
 
 class ProductPreviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['id', 'title', 'price', 'old_price', 'photo']
+
+class BrandRetriveWithPruductSerializer(serializers.ModelSerializer):
+    product = ProductRetriveSerializer(many=True, read_only=True)
+    class Meta:
+        model = Brand
+        fields = ['id', 'title', 'product']
