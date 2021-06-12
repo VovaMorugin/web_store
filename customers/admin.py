@@ -5,7 +5,7 @@ from .models import *
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'phone', 'email']
+    list_display = ['first_name', 'last_name', 'phone', 'email', 'token', 'time_created']
 
 @admin.register(CustomerAddress)
 class CustomerAddressAdmin(admin.ModelAdmin):

@@ -9,7 +9,7 @@ class Customer(models.Model):
         verbose_name = 'customer'
         verbose_name_plural = 'customers'
 
-    token = models.CharField(max_length=200, null=True, blank=True)
+    token = models.CharField(max_length=200, null=True, blank=True, verbose_name='Token')
     first_name = models.CharField(max_length=200, null=True, blank=True, verbose_name='First name')
     last_name = models.CharField(max_length=200, null=True, blank=True, verbose_name='Last name')
     phone = models.BigIntegerField(null=True, blank=True, verbose_name='Phone')
@@ -18,7 +18,6 @@ class Customer(models.Model):
 
     # def __str__(self):
     #     return str(self.first_name)
-
 
 class CustomerAddress(models.Model):
     class Meta:
