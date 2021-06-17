@@ -60,8 +60,8 @@ class ProductList(generics.ListAPIView):
     ordering_fields = ['title']
 
 
-class BrandRetrieve(generics.RetrieveAPIView):
-    serializer_class = BrandRetriveWithPruductSerializer
+class BrandRetrieve(generics.ListAPIView):
+    serializer_class = BrandSerializer
     queryset = Brand.objects.all()
 
 # def test_view(request):

@@ -11,5 +11,6 @@ urlpatterns = [
     path('<int:pk>/', ProductRetrive.as_view()),
     path('category/get_items/<int:category_id>/', ProductListFromCategory.as_view()),
     path('all/', ProductList.as_view()),
-    path('brands/get/<int:pk>', BrandRetrieve.as_view())
+    path('brands/get/<int:pk>', BrandRetrieve.as_view()),
+    path('brands/all/', BrandRetrieve.as_view())
 ]

@@ -75,8 +75,8 @@ class Promocode(models.Model):
         verbose_name = 'promocode'
         verbose_name_plural = 'promocodes'
 
-    code = models.CharField(max_length=10)
-    discount = models.FloatField()
+    code = models.CharField(max_length=10, blank=True, null=True)
+    discount = models.FloatField(blank=True, null=True)
 
     def __str__(self):
         return self.code
