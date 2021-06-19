@@ -36,13 +36,6 @@ def update_cart(request):
             except Order.DoesNotExist:
                 order = Order.objects.create(customer=customer)
 
-            # orders = Order.objects.filter(customer=customer)
-
-            # if orders.count() == 0:
-            #     Order.objects.create(customer=customer)
-            # else:
-            #     order = orders[0]
-
             try:
                 product_order = OrderProduct.objects.get(
                     product=product, order=order)
