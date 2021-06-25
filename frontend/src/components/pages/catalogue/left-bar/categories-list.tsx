@@ -4,6 +4,7 @@ import { catalogueStore } from '../../../../store/catalogue-store'
 import { useHistory } from 'react-router-dom'
 import { Loader } from '../../../shared/loader/loader'
 import { useQuery } from '../../../../hooks/useQuery'
+import { ErrorDisplay } from '../../../shared/error-display'
 
 export const CategoriesList = observer(() => {
 
@@ -16,6 +17,9 @@ export const CategoriesList = observer(() => {
 
   if (catalogueStore.isCategoryListLoading)
     return <Loader/>
+
+  if (catalogueStore.categoryListError)
+    return <ErrorDisplay error={catalogueStore.categoryListError}/>
 
   return (
     <ul className="list-menu">

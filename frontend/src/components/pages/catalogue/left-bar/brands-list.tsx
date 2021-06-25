@@ -4,6 +4,7 @@ import { catalogueStore } from '../../../../store/catalogue-store'
 import { useHistory } from 'react-router-dom'
 import { Loader } from '../../../shared/loader/loader'
 import { useQuery } from '../../../../hooks/useQuery'
+import { ErrorDisplay } from '../../../shared/error-display'
 
 export const BrandsList = observer(() => {
 
@@ -18,25 +19,29 @@ export const BrandsList = observer(() => {
     <div className="card-body">
       {
         catalogueStore.isBrandListLoading ? <Loader/>
-          :
-          <ul className="list-menu">
-            {
-              catalogueStore.brandList.map(brand =>
-                <li key={brand.id}>
-                  <button
-                    onClick={() => {
-                      query.set('brand_id', catalogueStore.calcBrandIdString(brand.id))
-                      history.push({ pathname: '/products/page/1', search: query.toString() })
-                    }}
-                    style={{ textDecoration: 'none', padding: '1px 12px' }}
-                    className={`btn btn-link ${brand.id === catalogueStore.filters.brandId ? 'dark font-weight-bold' : ''}`}
-                  >
-                    {brand.title}
-                  </button>
-                </li>
-              )
-            }
-          </ul>
+          : (
+            catalogueStore.brandListError
+              ? <ErrorDisplay error={catalogueStore.brandListError}/>
+              :
+              <ul className="list-menu">
+                {
+                  catalogueStore.brandList.map(brand =>
+                    <li key={brand.id}>
+                      <button
+                        onClick={() => {
+                          query.set('brand_id', catalogueStore.calcBrandIdString(brand.id))
+                          history.push({ pathname: '/products/page/1', search: query.toString() })
+                        }}
+                        style={{ textDecoration: 'none', padding: '1px 12px' }}
+                        className={`btn btn-link ${brand.id === catalogueStore.filters.brandId ? 'dark font-weight-bold' : ''}`}
+                      >
+                        {brand.title}
+                      </button>
+                    </li>
+                  )
+                }
+              </ul>
+          )
       }
     </div>
   )

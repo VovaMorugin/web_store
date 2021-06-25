@@ -17,7 +17,10 @@ export const useProduct = (productId: number) => {
         .then(res => {
           !unmounted && setProduct(res.data)
         })
-        .catch(error => !unmounted && setError(error.response))
+        .catch(error => {
+          !unmounted && setError(error.response)
+          console.dir(error)
+        })
         .finally(() => !unmounted && setIsLoading(false))
     }
 

@@ -9,6 +9,7 @@ import { catalogueStore } from '../../../store/catalogue-store'
 import { useQuery } from '../../../hooks/useQuery'
 import { LeftBar } from './left-bar/left-bar'
 import { Loader } from '../../shared/loader/loader'
+import { ErrorDisplay } from '../../shared/error-display'
 
 type Params = { page: string }
 type Props = RouteComponentProps<Params>
@@ -55,9 +56,12 @@ export const CataloguePage = observer(({ match }: Props) => {
   const store = toJS(catalogueStore.productsList)
 
   if (!catalogueStore.isProductsListLoading) {
-    listItems = !store.result.length
-      ? <div>Ни одна вещь не подходит по таким фильтрам!</div>
-      : store.result.map((item) => <ProductItem item={item} key={item.id}/>
+    listItems = catalogueStore.productsListError
+      ? <ErrorDisplay error={catalogueStore.productsListError}/>
+      : (
+        !store.result.length
+          ? <div>None of the things fit with these filters!</div>
+          : store.result.map((item) => <ProductItem item={item} key={item.id}/>)
       )
   }
 
@@ -68,7 +72,7 @@ export const CataloguePage = observer(({ match }: Props) => {
           ? <BreadCrumbsTop
             title="Products Page"
             crumbs={[
-              { title: 'Products', link: 'products/page/1' }
+              { title: 'Products', link: '/products/page/1' }
             ]}
             here={catalogueStore.categoryList.find(c => c.id === catalogueStore.filters.categoryId)?.title || ''}/>
           : <BreadCrumbsTop

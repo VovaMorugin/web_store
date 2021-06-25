@@ -1,7 +1,9 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
-
+from django.contrib.auth import get_user_model
 # Create your models here.
+
+User = get_user_model()
 
 class Customer(models.Model):
     class Meta:
@@ -15,9 +17,10 @@ class Customer(models.Model):
     phone = models.BigIntegerField(null=True, blank=True, verbose_name='Phone')
     email = models.CharField(max_length=200, null=True, blank=True, verbose_name='Email')
     time_created = models.DateTimeField(auto_now_add=True, verbose_name='Created')
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
 
-    # def __str__(self):
-    #     return str(self.first_name)
+    def __str__(self):
+        return str(self.first_name)
 
 class CustomerAddress(models.Model):
     class Meta:

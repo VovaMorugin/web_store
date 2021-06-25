@@ -67,7 +67,10 @@ class CatalogueStore {
     this.isCategoryListLoading = true
     api.get('/product/category/list/')
       .then(res => runInAction(() => this.categoryList = res.data))
-      .catch(error => runInAction(() => this.categoryListError = error.response))
+      .catch(error => runInAction(() => {
+        this.categoryListError = error.response
+        console.dir(error)
+      }))
       .finally(() => runInAction(() => this.isCategoryListLoading = false))
   }
 
@@ -75,7 +78,10 @@ class CatalogueStore {
     this.isBrandListLoading = true
     api.get('/product/brands/all/')
       .then(res => runInAction(() => this.brandList = res.data))
-      .catch(error => runInAction(() => this.brandListError = error.response))
+      .catch(error => runInAction(() => {
+        this.brandListError = error.response
+        console.dir(error)
+      }))
       .finally(() => runInAction(() => this.isBrandListLoading = false))
   }
 
@@ -93,7 +99,10 @@ class CatalogueStore {
 
     api.get(`${endpoint}/${query}`)
       .then(res => runInAction(() => this.productsList = res.data))
-      .catch(error => runInAction(() => this.productsListError = error.response))
+      .catch(error => runInAction(() => {
+        this.productsListError = error.response
+        console.dir(error)
+      }))
       .finally(() => runInAction(() => this.isProductsListLoading = false))
   }
 

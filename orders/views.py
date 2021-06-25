@@ -4,9 +4,10 @@ from django.shortcuts import HttpResponse
 from .models import Order, OrderProduct
 from rest_framework import generics, status
 import json
-from customers.models import Customer
+from customers.models import Customer, CustomerAddress
 from products.models import Product
-
+from datetime import date, datetime
+from rest_framework.response import Response
 # Create your views here.
 
 
@@ -71,10 +72,51 @@ def update_cart(request):
     else:
         return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
+
 class CartList(generics.ListAPIView):
-    serializer_class = OrderProductSerializer 
+    serializer_class = OrderProductSerializer
+
     def get_queryset(self):
         try:
-            return OrderProduct.objects.filter(order__customer__token = self.kwargs['customer_token'])
+            return OrderProduct.objects.filter(order__customer__token=self.kwargs['customer_token'])
         except BaseException:
             return None
+
+
+class OrderFinalize(generics.UpdateAPIView):
+    serializer_class = OrderSerializer
+    queryset = Order
+
+    def update(self, request, *args, **kwargs):
+        try:
+            request_json = request.data
+            customer = Customer.objects.get(token=request_json['token'])
+            order = Order.objects.filter(
+                customer=customer, is_ordered=False).order_by('-id')[0]
+            serializer = self.get_serializer(
+                order, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            self.perform_update(serializer)
+            customer.first_name = request_json['first_name']
+            customer.last_name = request_json['last_name']
+            customer.email = request_json['email']
+            customer.phone = request_json['phone']
+            address = CustomerAddress.objects.create(
+                customer=customer,
+                country=request_json['country'],
+                city=request_json['city'],
+                post_code=request_json['post_code'],
+                address=request_json['address']
+
+            )
+            order.customer_shipping_address = address
+            order.is_ordered = True
+            order.time_checkout = datetime.now()
+            customer.save()
+            order.save()
+            return Response(serializer.data)
+
+        except BaseException as e:
+            return Response({
+                'error': str(e)
+            })

@@ -14,4 +14,3 @@ urlpatterns = [
     path('brands/get/<int:pk>', BrandRetrieve.as_view()),
     path('brands/all/', BrandRetrieve.as_view())
 ]
-

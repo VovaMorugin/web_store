@@ -2,6 +2,8 @@ import { makeAutoObservable, runInAction } from 'mobx'
 import { api } from '../api'
 import { CartProductInfo } from '../types/cart'
 
+export const CUSTOMER_TOKEN_KEY = 'customer_token'
+
 class CartStore {
 
   isCartProductsListLoading = false
@@ -18,36 +20,49 @@ class CartStore {
   }
 
   createCustomerToken() {
-    if (localStorage.getItem('customer_token')) return Promise.resolve()
+    if (localStorage.getItem(CUSTOMER_TOKEN_KEY)) return Promise.resolve()
     return api.post(
       '/customer/create/', {})
       .then(res => {
         if (res.data.status === true) {
-          localStorage.setItem('customer_token', res.data.customer_token)
+          localStorage.setItem(CUSTOMER_TOKEN_KEY, res.data.customer_token)
         }
       })
-      .catch(error => runInAction(() => this.error = error.response))
+      .catch(error => {
+        runInAction(() => this.error = error.response.data.error)
+        console.dir(error)
+      })
   }
 
   loadCart() {
     this.isCartProductsListLoading = true
-    api.get(`/order/cart/list/${localStorage.getItem('customer_token')}/`)
+    api.get(`/order/cart/list/${localStorage.getItem(CUSTOMER_TOKEN_KEY)}/`)
       .then(res => runInAction(() => this.cartProductsList = res.data))
-      .catch(res => runInAction(() => this.error = res.data))
+      .catch(error => {
+        runInAction(() => this.error = error.response.data.error)
+        console.dir(error)
+      })
       .finally(() => runInAction(() => this.isCartProductsListLoading = false))
   }
 
   async updateProduct(productId: number, quantity: number) {
     await api.post('/order/cart/update/', {
-      token: localStorage.getItem('customer_token'),
+      token: localStorage.getItem(CUSTOMER_TOKEN_KEY),
       product_id: productId,
       quantity
-    }).then(res => res.data).catch(res => runInAction(() => this.error = res.data))
+    }).then(res => res.data).catch(error => {
+      runInAction(() => this.error = error.response.data.error)
+      console.dir(error)
+    })
   }
 
   async addToCart(productId: number) {
-    const quantity = this.cartProductsList.find(p => p.product)?.quantity || 0
-    await this.updateProduct(productId, quantity + 1)
+    const buyQuantity = this.cartProductsList.find(p => p.product === productId)?.quantity || 0
+    const available = (await api.get('/product/get/' + productId)).data.quantity
+
+    if (available <= buyQuantity) return
+
+    await this.updateProduct(productId, buyQuantity + 1)
     this.loadCart()
   }
 

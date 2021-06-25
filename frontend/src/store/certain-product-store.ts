@@ -20,7 +20,10 @@ export class CertainProductStore {
           this.product = res.data
         })
       })
-      .catch(error => runInAction(() => this.error = error.response))
+      .catch(error => {
+        runInAction(() => this.error = error.response)
+        console.dir(error)
+      })
       .finally(() => runInAction(() => this.isLoading = false))
   }
 }
