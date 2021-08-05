@@ -195,7 +195,7 @@ GET `/api/product/category/2/products/`
 }
 ```
 
-## Returns the list off all products with pagination
+## Returns the list of all products with pagination
 GET `/api/product/all/`
 ### Response body:
 ```json
@@ -268,16 +268,134 @@ GET `/api/product/all/`
     ]
 }
 ```
-
+## Returns the list of items by brand id
 GET `/api/product/brands/get/<int:pk>/`
-
+### Response body for /api/product/brands/get/2/:
+```json
+{
+    "id": 2,
+    "title": "Supertech",
+    "products": [
+        {
+            "id": 3,
+            "title": "42 inch TV",
+            "price": "300.00",
+            "old_price": null,
+            "photo": "http://127.0.0.1:8000/media/images/no_photo.jpg",
+            "brand": {
+                "id": 2,
+                "title": "Supertech"
+            }
+        },
+        {
+            "id": 4,
+            "title": "60 inch TV",
+            "price": "450.00",
+            "old_price": null,
+            "photo": "http://127.0.0.1:8000/media/images/no_photo.jpg",
+            "brand": {
+                "id": 2,
+                "title": "Supertech"
+            }
+        }
+    ]
+}
+```
+## Returns the list all available brands:
 GET `/api/product/brands/all/`
+### Response body:
+
+```json
+[
+    {
+        "id": 2,
+        "title": "Supertech"
+    },
+    {
+        "id": 4,
+        "title": "Fake Electronics"
+    },
+    {
+        "id": 5,
+        "title": "PH"
+    }
+]
+```
+
 
 ## Order related endpoints:
-
+## Updates the cart:
+"cart_items_count" shows number of unique items in the cart
 POST `/api/order/cart/update/`
+### Request body:
 
-GET `/api/order/cart/list/<slug:customer_token>/`
+```json
+{
+    "token": "395bce87-0edd-4834-9063-a36311e2f81f",
+    "product_id": 5,
+    "quantity": 3
+}
+```
 
+### Response body:
+
+```json
+{
+  "status": true, 
+  "cart_items_count": 1}
+}
+```
+
+## Returns list of items in the cart:
+GET `/api/order/cart/list/<customer_token>/`
+### Response body for /api/order/cart/list/395bce87-0edd-4834-9063-a36311e2f81f/:
+
+```json
+[
+    {
+        "id": 2,
+        "price": "399.00",
+        "quantity": 3,
+        "order": 2,
+        "product": 5
+    },
+    {
+        "id": 3,
+        "price": "300.00",
+        "quantity": 1,
+        "order": 2,
+        "product": 3
+    }
+]
+```
+## Place an order
 PUT `/api/order/finalize/`
 
+### Request body:
+
+```json
+{
+    "token": "395bce87-0edd-4834-9063-a36311e2f81f",
+    "first_name": "Volodymyr",
+    "last_name": "Moruhin",
+    "email": "vova.morugin@gmail.com",
+    "country": "USA",
+    "city":"Beverly Hills, CA",
+    "post_code":"90210",
+    "address":"123 Drive"
+}
+```
+
+### Response body:
+
+```json
+{
+    "id": 2,
+    "time_created": "2021-08-05T19:53:39.987909Z",
+    "time_checkout": "2021-08-05T20:06:48.502872Z",
+    "time_delivery": null,
+    "is_ordered": true,
+    "customer": 4,
+    "customer_shipping_address": 2
+}
+```
