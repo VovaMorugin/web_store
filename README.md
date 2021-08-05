@@ -2,7 +2,7 @@
 
 Written in Python using the Django REST framework, can be used with any frontend that conforms to the following endpoints:
 
-### Contents
+### Content
 * [Customer related endpoints](#customer-related-endpoints)
 * [Product related endpoints](#product-related-endpoints)
 * [Order related endpoints](#order-related-endpoints)
