@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from .views import home_page
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -22,6 +23,7 @@ from rest_framework_simplejwt.views import (
 
 
 urlpatterns = [
+    path('', home_page),
     path('admin/', admin.site.urls),
     path('api/product/', include('products.urls')),
     path('api/order/', include('orders.urls')),
