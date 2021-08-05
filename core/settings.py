@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -147,7 +147,7 @@ SIMPLE_JWT = {
 }
 
 STATICFILES_DIR = '/static/'
-STATIC_ROOT = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 BASE_DOMAIN = 'http://127.0.0.1:8000'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
