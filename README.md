@@ -2,6 +2,10 @@
 
 <h2>Written in Python using the Django REST framework, can be used with any frontend that conforms to the following endpoints:</h2>
 
+# Contents
+* [Customer related endpoints](#customer-related-endpoints)
+* [Product related endpoints](#product-related-endpoints)
+* [Order related endpoints](#order-related-endpoints)
 
 ### Customer related endpoints:
 
@@ -81,12 +85,53 @@ POST `/api/jwt/refresh/`
 
 
 
-## return 
+## return order by list to current authorized user, must pass JWT token in request
 GET `/api/customer/myorders/`
+### Response body:
+```json 
+[
+    {
+        "id": 2,
+        "is_ordered": true,
+        "time_created": "2021-08-05T19:53:39.987909Z",
+        "time_checkout": "2021-08-05T20:06:48.502872Z",
+        "time_delivery": null,
+        "products": [
+            {
+                "order_id": 2,
+                "product_id": 5,
+                "price": "399.00",
+                "quantity": 3,
+                "product": "Cell phone with 5G"
+            },
+            {
+                "order_id": 2,
+                "product_id": 3,
+                "price": "300.00",
+                "quantity": 1,
+                "product": "42 inch TV"
+            }
+        ]
+    }
+]
+```
 
-
-
+## return current authorized user data, could be used in order finalization as default values for order check out form. JWT token must be passed in request
 GET `/api/customer/getuser/`
+### Response body:
+```json
+{
+    "id": 4,
+    "first_name": "Volodymyr",
+    "last_name": "Moruhin",
+    "phone": null,
+    "email": "vova.morugin@gmail.com",
+    "time_created": "2021-08-05T18:32:52.014145Z",
+    "token": "395bce87-0edd-4834-9063-a36311e2f81f",
+    "user": 15
+}
+```
+
 
 # Product related endpoints:
 
