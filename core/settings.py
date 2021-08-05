@@ -29,7 +29,6 @@ load_dotenv()
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -147,3 +146,6 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',)
 }
 
+STATICFILES_DIR = '/static/'
+STATIC_ROOT = '/static/'
+BASE_DOMAIN = 'http://127.0.0.1:8000'

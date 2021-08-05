@@ -4,8 +4,8 @@ from .models import *
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('customer', 'promocode', 'customer_shipping_address')
+    list_display = ['customer', 'time_created', 'time_checkout', 'time_delivery']
 
 @admin.register(OrderProduct)
-class OrderProductAdmin(admin.ModelAdmin):
-    list_display = ('order', 'product', 'quantity', 'price')
+class OrderProductAmin(admin.ModelAdmin):
+    list_display = ['order', 'product', 'price', 'quantity']

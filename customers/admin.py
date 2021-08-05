@@ -1,12 +1,8 @@
 from django.contrib import admin
-from django.contrib.admin.options import ModelAdmin
 from .models import *
 # Register your models here.
 
 @admin.register(Customer)
-class CustomerAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'phone', 'email', 'token', 'time_created']
-
-@admin.register(CustomerAddress)
-class CustomerAddressAdmin(admin.ModelAdmin):
-    list_display = ['customer', 'country', 'city', 'post_code', 'address']
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['token', 'last_name', 'first_name', 'user', 'phone', 'email', 'time_created']
+    search_fields = ['last_name', 'first_name']
