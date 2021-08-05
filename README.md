@@ -81,25 +81,193 @@ POST `/api/jwt/refresh/`
 
 
 
-
-
+## return 
 GET `/api/customer/myorders/`
 
 
 
 GET `/api/customer/getuser/`
 
-## Product related endpoints:
+# Product related endpoints:
 
+## Returns the list of all products categories
 GET `/api/product/category/list/`
+### Response body:
+```json
+[
+    {
+        "id": 2,
+        "title": "TVs"
+    },
+    {
+        "id": 3,
+        "title": "Cell Phones"
+    },
+    {
+        "id": 4,
+        "title": "Video Games"
+    },
+    {
+        "id": 5,
+        "title": "Laptops"
+    },
+    {
+        "id": 6,
+        "title": "Appliances"
+    }
+]
+```
+
+
+
+## Returns product category by id
 
 GET `/api/product/category/get/<int:pk>/`
 
+### Response body for /api/product/category/get/2/:
+```json
+{
+    "title": "TVs",
+    "is_active": true
+}
+```
+
+
+## Returns product info by id
 GET `/api/product/get/<int:pk>/`
+### Response body for /api/product/get/5/:
+```json
+{
+    "id": 5,
+    "title": "Cell phone with 5G",
+    "price": "399.00",
+    "old_price": null,
+    "quantity": 1,
+    "photo": "http://127.0.0.1:8000/media/images/no_photo.jpg",
+    "brand": {
+        "id": 4,
+        "title": "Fake Electronics"
+    },
+    "description": "so much wow",
+    "reviews": []
+}
+```
 
-GET `/api/product/category/<int:category_id>/products/`
+## Returns the list of all product from certain category
+If there are more than 9 items in the chosen category - pagenation will apply and "Links" will contain information about previous and next page.
+GET `/api/product/category/2/products/`
+### Response body for /api/product/category/products/:
+```json
+{
+    "links": {
+        "next": null,
+        "previous": null,
+        "next_num_page": null,
+        "previous_num_page": null
+    },
+    "page": 1,
+    "pages": 1,
+    "count": 2,
+    "result": [
+        {
+            "id": 3,
+            "title": "42 inch TV",
+            "price": "300.00",
+            "old_price": null,
+            "photo": "http://127.0.0.1:8000/media/images/no_photo.jpg",
+            "brand": {
+                "id": 2,
+                "title": "Supertech"
+            }
+        },
+        {
+            "id": 4,
+            "title": "60 inch TV",
+            "price": "450.00",
+            "old_price": null,
+            "photo": "http://127.0.0.1:8000/media/images/no_photo.jpg",
+            "brand": {
+                "id": 2,
+                "title": "Supertech"
+            }
+        }
+    ]
+}
+```
 
+## Returns the list off all products with pagination
 GET `/api/product/all/`
+### Response body:
+```json
+{
+    "links": {
+        "next": null,
+        "previous": null,
+        "next_num_page": null,
+        "previous_num_page": null
+    },
+    "page": 1,
+    "pages": 1,
+    "count": 5,
+    "result": [
+        {
+            "id": 3,
+            "title": "42 inch TV",
+            "price": "300.00",
+            "old_price": null,
+            "photo": "http://127.0.0.1:8000/media/images/no_photo.jpg",
+            "brand": {
+                "id": 2,
+                "title": "Supertech"
+            }
+        },
+        {
+            "id": 4,
+            "title": "60 inch TV",
+            "price": "450.00",
+            "old_price": null,
+            "photo": "http://127.0.0.1:8000/media/images/no_photo.jpg",
+            "brand": {
+                "id": 2,
+                "title": "Supertech"
+            }
+        },
+        {
+            "id": 5,
+            "title": "Cell phone with 5G",
+            "price": "399.00",
+            "old_price": null,
+            "photo": "http://127.0.0.1:8000/media/images/no_photo.jpg",
+            "brand": {
+                "id": 4,
+                "title": "Fake Electronics"
+            }
+        },
+        {
+            "id": 6,
+            "title": "Laptop for the BOSS",
+            "price": "999.00",
+            "old_price": null,
+            "photo": "http://127.0.0.1:8000/media/images/no_photo.jpg",
+            "brand": {
+                "id": 5,
+                "title": "PH"
+            }
+        },
+        {
+            "id": 7,
+            "title": "Wine Fridge",
+            "price": "199.00",
+            "old_price": null,
+            "photo": "http://127.0.0.1:8000/media/images/no_photo.jpg",
+            "brand": {
+                "id": 4,
+                "title": "Fake Electronics"
+            }
+        }
+    ]
+}
+```
 
 GET `/api/product/brands/get/<int:pk>/`
 
