@@ -13,20 +13,23 @@ from rest_framework.response import Response
 # update items in cart, must pass token, product_id and quantity, returns total number of items in the cart and status
 # items in carts are stored in db so the user can continue shopping later.
 
+
 def update_cart(request):
     if request.method == 'POST':
         try:
             request_json = json.loads(request.body)
             customer = Customer.objects.get(token=request_json['token'])
             product = Product.objects.get(pk=request_json['product_id'])
-            orders = Order.objects.filter(customer=customer, is_ordered=False).order_by('-id')
+            orders = Order.objects.filter(
+                customer=customer, is_ordered=False).order_by('-id')
             if orders.count() == 0:
                 order = Order.objects.create(customer=customer)
             else:
                 order = orders[0]
 
             try:
-                product_order = OrderProduct.objects.get(product=product, order=order)
+                product_order = OrderProduct.objects.get(
+                    product=product, order=order)
                 if request_json['quantity'] == 0:
                     product_order.delete()
                 else:
@@ -41,7 +44,8 @@ def update_cart(request):
                     quantity=request_json['quantity']
                 )
             # cart = core_serializer.serialize('json', OrderProduct.objects.filter(order__customer__token=request_json['token']))
-            count_products = OrderProduct.objects.filter(order__customer__token=request_json['token']).count()
+            count_products = OrderProduct.objects.filter(
+                order__customer__token=request_json['token']).count()
             resp = {
                 "status": True,
                 "cart_items_count": count_products
@@ -86,21 +90,22 @@ class OrderFinalize(generics.UpdateAPIView):
         try:
             request_json = request.data
             customer = Customer.objects.get(token=request_json['token'])
-            instance = Order.objects.filter(customer=customer, is_ordered=False).order_by('-id')[0]
-            serializer = self.get_serializer(instance, data=request.data, partial=True)
+            instance = Order.objects.filter(
+                customer=customer, is_ordered=False).order_by('-id')[0]
+            serializer = self.get_serializer(
+                instance, data=request.data, partial=True)
             serializer.is_valid(raise_exception=True)
             self.perform_update(serializer)
             customer.first_name = request_json['first_name']
             customer.last_name = request_json['last_name']
             customer.email = request_json['email']
 
-
             address = CustomerAddress.objects.create(
-                customer = customer,
-                country = request_json['country'],
-                city = request_json['city'],
-                post_code = request_json['post_code'],
-                address = request_json['address'],
+                customer=customer,
+                country=request_json['country'],
+                city=request_json['city'],
+                post_code=request_json['post_code'],
+                address=request_json['address'],
             )
 
             instance.customer_shipping_address = address

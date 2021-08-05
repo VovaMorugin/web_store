@@ -15,7 +15,7 @@ class Order(models.Model):
     time_created = models.DateTimeField(auto_now_add=True, verbose_name='Time created')
     time_checkout = models.DateTimeField(null=True, blank=True, verbose_name='Time checkout')
     time_delivery = models.DateTimeField(null=True, blank=True, verbose_name='Time delivery')
-    is_ordered = models.BooleanField(default=False, verbose_name='Заказ оформлен')
+    is_ordered = models.BooleanField(default=False, verbose_name='Order is done')
 
     def __str__(self):
         if self.customer.first_name:

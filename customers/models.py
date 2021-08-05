@@ -9,7 +9,7 @@ class Customer(models.Model):
         db_table = 'customers'
         verbose_name = 'Customer'
         verbose_name_plural = 'Customers'
-
+    
     first_name = models.CharField(max_length=200, null=True, blank=True, verbose_name='First name')
     last_name = models.CharField(max_length=200, null=True, blank=True, verbose_name='Last name')
     phone = models.BigIntegerField(null=True, blank=True, verbose_name='Phone')
