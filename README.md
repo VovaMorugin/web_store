@@ -1,20 +1,20 @@
-<h1>Generic web store back end with REST API</h1>
+# Web store backend with REST API
 
-<h2>Written in Python using the Django REST framework, can be used with any frontend that conforms to the following endpoints:</h2>
+Written in Python using the Django REST framework, can be used with any frontend that conforms to the following endpoints:
 
-# Contents
+### Contents
 * [Customer related endpoints](#customer-related-endpoints)
 * [Product related endpoints](#product-related-endpoints)
 * [Order related endpoints](#order-related-endpoints)
 
-### Customer related endpoints:
+# Customer related endpoints:
 
 
 ## Create new customer token
 POST `/api/customer/create/`
 
 
-### Response body:
+Response body:
 ```json
 {
   "status": true, 
@@ -22,11 +22,11 @@ POST `/api/customer/create/`
 }
 ```
 
-## Register user and bind it to the customer by the token created before
+## Register user and bind it to the customer by the token
 
 POST `/api/customer/registration/`
 
-### Request body
+Request body
 ```json
 {
     "username": "vmoruhin",
@@ -38,7 +38,7 @@ POST `/api/customer/registration/`
 }
 ```
 
-### Response body
+Response body
 ```json
 {
     "id": 15,
@@ -53,14 +53,15 @@ POST `/api/customer/registration/`
 - /refresh/ is used when access token is expired
 
 POST `/api/jwt/auth/`
-### Request body:
+
+Request body:
 ```json
 {
     "username": "vmoruhin",
     "password": "asdsad123ASd$"
 }
 ```
-### Response body:
+Response body:
 ```json
 {
   "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYyOTA1MzM1NiwianRpIjoiNTVlNmQ0YjkwMWZhNDYwZWJmNjcwNzYxZTg1MGQzMzYiLCJ1c2VyX2lkIjoxNX0.LJA5LW8TvO4WZayXCf5rzsRkDhYv1Qc9F_NaZqR8bSo",
@@ -70,24 +71,23 @@ POST `/api/jwt/auth/`
 
 
 POST `/api/jwt/refresh/`
-### Request body:
+
+Request body:
 ```json
 {
   "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYyOTA1MzM1NiwianRpIjoiNTVlNmQ0YjkwMWZhNDYwZWJmNjcwNzYxZTg1MGQzMzYiLCJ1c2VyX2lkIjoxNX0.LJA5LW8TvO4WZayXCf5rzsRkDhYv1Qc9F_NaZqR8bSo"
 }
 ```
-### Response body:
+Response body:
 ```json
 {
   "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjI4Mjc3MjA0LCJqdGkiOiI2OGU1MzVkZWQyMzY0NjdmOGViMGI5ZjJhMzFkMDdmNSIsInVzZXJfaWQiOjE1fQ.MVR_kyQbHW6_aYPNdOes-TVM5tgLyYWJG-AwazYp0PM"
 }
 ```
 
-
-
 ## return order by list to current authorized user, must pass JWT token in request
 GET `/api/customer/myorders/`
-### Response body:
+Response body:
 ```json 
 [
     {
@@ -118,7 +118,7 @@ GET `/api/customer/myorders/`
 
 ## return current authorized user data, could be used in order finalization as default values for order check out form. JWT token must be passed in request
 GET `/api/customer/getuser/`
-### Response body:
+Response body:
 ```json
 {
     "id": 4,
@@ -137,7 +137,8 @@ GET `/api/customer/getuser/`
 
 ## Returns the list of all products categories
 GET `/api/product/category/list/`
-### Response body:
+
+Response body:
 ```json
 [
     {
@@ -169,7 +170,8 @@ GET `/api/product/category/list/`
 
 GET `/api/product/category/get/<int:pk>/`
 
-### Response body for /api/product/category/get/2/:
+Response body for /api/product/category/get/2/:
+
 ```json
 {
     "title": "TVs",
@@ -179,8 +181,10 @@ GET `/api/product/category/get/<int:pk>/`
 
 
 ## Returns product info by id
+
 GET `/api/product/get/<int:pk>/`
-### Response body for /api/product/get/5/:
+
+Response body for /api/product/get/5/:
 ```json
 {
     "id": 5,
@@ -200,8 +204,10 @@ GET `/api/product/get/<int:pk>/`
 
 ## Returns the list of all product from certain category
 If there are more than 9 items in the chosen category - pagenation will apply and "Links" will contain information about previous and next page.
+
 GET `/api/product/category/2/products/`
-### Response body for /api/product/category/products/:
+
+Response body for /api/product/category/products/:
 ```json
 {
     "links": {
@@ -241,8 +247,10 @@ GET `/api/product/category/2/products/`
 ```
 
 ## Returns the list of all products with pagination
+
 GET `/api/product/all/`
-### Response body:
+
+Response body:
 ```json
 {
     "links": {
@@ -314,8 +322,10 @@ GET `/api/product/all/`
 }
 ```
 ## Returns the list of items by brand id
+
 GET `/api/product/brands/get/<int:pk>/`
-### Response body for /api/product/brands/get/2/:
+
+Response body for /api/product/brands/get/2/:
 ```json
 {
     "id": 2,
@@ -347,8 +357,10 @@ GET `/api/product/brands/get/<int:pk>/`
 }
 ```
 ## Returns the list all available brands:
+
 GET `/api/product/brands/all/`
-### Response body:
+
+Response body:
 
 ```json
 [
@@ -368,11 +380,13 @@ GET `/api/product/brands/all/`
 ```
 
 
-## Order related endpoints:
+# Order related endpoints:
 ## Updates the cart:
 "cart_items_count" shows number of unique items in the cart
+
 POST `/api/order/cart/update/`
-### Request body:
+
+Request body:
 
 ```json
 {
@@ -382,7 +396,7 @@ POST `/api/order/cart/update/`
 }
 ```
 
-### Response body:
+Response body:
 
 ```json
 {
@@ -392,8 +406,10 @@ POST `/api/order/cart/update/`
 ```
 
 ## Returns list of items in the cart:
+
 GET `/api/order/cart/list/<customer_token>/`
-### Response body for /api/order/cart/list/395bce87-0edd-4834-9063-a36311e2f81f/:
+
+Response body for /api/order/cart/list/395bce87-0edd-4834-9063-a36311e2f81f/:
 
 ```json
 [
@@ -416,7 +432,7 @@ GET `/api/order/cart/list/<customer_token>/`
 ## Place an order
 PUT `/api/order/finalize/`
 
-### Request body:
+Request body:
 
 ```json
 {
@@ -431,7 +447,7 @@ PUT `/api/order/finalize/`
 }
 ```
 
-### Response body:
+Response body:
 
 ```json
 {
