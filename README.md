@@ -1,6 +1,7 @@
 # Web store backend with REST API
 
 Written in Python using the Django REST framework, can be used with any frontend that conforms to the following endpoints:
+BASE_URL = "https://backend-web-store.herokuapp.com"
 
 ### Content
 * [Customer related endpoints](#customer-related-endpoints)
